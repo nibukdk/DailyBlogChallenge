@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <!-- <style>
+    .targetColumnInfo {
+      color: grey;
+      font-size: 10px;
+    }
+  </style> -->
+</head>
+
+<body>
+  <form onsubmit="formSubmitHandler(event)">
+    <h2>Source Sheet</h2>
+    <label for="sourceSheet">Source Sheet Name:</label><br>
+    <input type="text" id="sourceSheet" name="sourceSheet"><br>
+    <label for="referenceColumn">Reference Column Name</label><br>
+    <input type="text" id="referenceColumn" name="referenceColumn"><br>
+    <label for="sourceColumn">Source Column To Copy From:</label><br>
+    <input type="text" id="sourceColumn" name="sourceColumn"><br>
+    <hr>
+    <h2>Target Sheet</h2><br>
+    <label for="targetSheet">Target Sheet Name:</label><br>
+    <input type="text" id="targetSheet" name="targetSheet"><br>
+    <label for="targetReferenceColumn">Reference Column Name</label><br>
+    <input type="text" id="targetReferenceColumn" name="targetReferenceColumn"><br>
+    <label for="targetColumn">Target Column To Copy To:*</label><br>
+    <input type="text" id="targetColumn" name="targetColumn"><br>
+    <!-- <p class="targetColumnInfo">*Leave Last Input Empty to create new target column</p> -->
+
+    <input type="submit" value="Submit" />
+
+  </form>
+
+  <script>
+    function formSubmitHandler(event) {
+
+      const sourceSheet = event.target['sourceSheet'].value;
+      const referenceColumn = event.target['referenceColumn'].value;
+      const sourceColumn = event.target['sourceColumn'].value;
+      const targetSheet = event.target['targetSheet'].value;
+      const targetReferenceColumn = event.target['targetReferenceColumn'].value;
+      const targetColumn = event.target['targetColumn'].value ?? "";
+      const data = [sourceSheet, referenceColumn, sourceColumn, targetSheet, targetReferenceColumn, targetColumn];
+
+      // call server side function
+      google.script.run.withSuccessHandler(closeDialog).setTargetColumns(data);
+
+      event.preventDefault();
+
+    }
+
+    function closeDialog() { google.script.host.close() }
+  </script>
+</body>
+
+</html>
